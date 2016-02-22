@@ -5,14 +5,15 @@ const {
   Component,
   Text,
   View,
-  PropTypes
+  PropTypes,
+  Platform
 } = React;
 import NavbarButton from './NavbarButton';
 import styles from './styles';
 
 const ButtonShape = {
   title: PropTypes.string.isRequired,
-  style: PropTypes.object,
+  style: PropTypes.any,
   handler: PropTypes.func,
 };
 
@@ -30,14 +31,16 @@ const StatusBarShape = {
 };
 
 function customizeStatusBar(data) {
-  if (data.style) {
-    StatusBarIOS.setStyle(data.style, true);
-  }
-  const animation = data.hidden ?
+  if (Platform.OS === 'ios') {
+    if (data.style) {
+      StatusBarIOS.setStyle(data.style, true);
+    }
+    const animation = data.hidden ?
     (data.hideAnimation || NavigationBar.defaultProps.statusBar.hideAnimation) :
     (data.showAnimation || NavigationBar.defaultProps.statusBar.showAnimation);
 
-  StatusBarIOS.setHidden(data.hidden, animation);
+    StatusBarIOS.setHidden(data.hidden, animation);
+  }
 }
 
 class NavigationBar extends Component {
@@ -80,8 +83,11 @@ class NavigationBar extends Component {
     const customTintColor = this.props.tintColor ?
       { backgroundColor: this.props.tintColor } : null;
 
+    const customStatusBarTintColor = this.props.statusBar.tintColor ?
+      { backgroundColor: this.props.statusBar.tintColor } : null;
+
     const statusBar = !this.props.statusBar.hidden ?
-      <View style={[styles.statusBar, ]} /> : null;
+      <View style={[styles.statusBar, customStatusBarTintColor ]} /> : null;
 
     return (
       <View style={[styles.navBarContainer, customTintColor, ]}>
