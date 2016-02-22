@@ -11,15 +11,11 @@ module.exports = {
     height: STATUS_BAR_HEIGHT,
   },
   navBar: {
-    height: NAV_BAR_HEIGHT,
+    // height: NAV_BAR_HEIGHT,
     flexDirection: 'row',
     justifyContent: 'space-between',
   },
   customTitle: {
-    position: 'absolute',
-    left: 0,
-    right: 0,
-    bottom: 7,
     alignItems: 'center',
   },
   navBarButton: {
